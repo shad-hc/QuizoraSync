@@ -4,9 +4,9 @@ import { UserRole } from "../models/User";
 const JWT_SECRET = process.env.JWT_SECRET || "dev_secret";
 
 export interface TokenPayload {
-    userId : String;
+    userId : string;
     role : UserRole;
-    email : String;
+    email : string;
 }
 
 export const signAccessToken = (payload: TokenPayload):string => {

@@ -1,6 +1,7 @@
 import { Request,Response,NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { verifyAccessToken,TokenPayload } from "../../utils/jwt";
+import { verifyAccessToken,TokenPayload } from "../utils/jwt";
+import { UserRole } from "../models/User";
 
 export const authenticate = (req: Request,res: Response,
 next: NextFunction) => {
@@ -18,7 +19,7 @@ next: NextFunction) => {
     }
 
     try{
-            const decoded: TokenPayload = verifyAccessToken(token);
+        const decoded: TokenPayload = verifyAccessToken(token);
     if(decoded){
         req.user = decoded;
         next();
@@ -26,4 +27,14 @@ next: NextFunction) => {
     }catch{
         res.status(401).json({ error: 'Invalid or expired token' });
     }
+}
+
+export function requireRole(...roles: UserRole[]) {
+  return (req: Request, res: Response, next: NextFunction): void => {
+    if (!req.user || !roles.includes(req.user.role)) {
+      res.status(403).json({ error: `Requires one of roles: ${roles.join(', ')}` });
+      return;
+    }
+    next();
+  };
 }
