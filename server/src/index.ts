@@ -5,6 +5,7 @@ import express from "express";
 import cors from "cors";
 import http from "http";
 import mongoose from 'mongoose';
+import { setUpWebSocketServer } from './ws/wsServer';
 import authRoutes from "./routes/authRoutes";
 import quizRoutes from "./routes/quizRoutes";
 const app = express();
@@ -21,6 +22,7 @@ app.use("/api/v1/quiz", quizRoutes);
 app.get("/health", (_req,res) => res.json({ status: "ok", timestamp: new Date()}));
 
 const server = http.createServer(app);
+setUpWebSocketServer(server);
 
 async function start() {
     try{
