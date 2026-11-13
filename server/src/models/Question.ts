@@ -1,6 +1,6 @@
 import mongoose, { Document,Schema } from "mongoose";
 
-interface IQuestion extends Document {
+export interface IQuestion extends Document {
     quizId: mongoose.Types.ObjectId;
     text: string;
     options: string[];
