@@ -13,7 +13,7 @@ export async function getCachedQuiz(quizId: string): Promise<IQuiz | null> {
 }
 
 export const getCachedQuestions = async (quizId: string)
-: Promise<IQuestion[] | null> => {
+: Promise<IQuestion[]> => {
     const cached = await redis.get(KEYS.questions(quizId));
     if(cached) return JSON.parse(cached) as IQuestion[];
 

@@ -60,5 +60,12 @@ score: number): Promise<void>{
     await pipeline.exec();
 }
 
+export async function initLeaderboardMemeber(quizId: string, userId: string)
+:Promise<void>{
+    await redis.zadd(KEYS.leaderboard(quizId),'NX',0,userId);
+    await redis.expire(KEYS.leaderboard(quizId),CACHE_TTL * 6);
+}
+
+
 
 
